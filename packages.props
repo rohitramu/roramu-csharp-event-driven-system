@@ -1,0 +1,5 @@
+<Project>
+    <ItemGroup>
+        <PackageReference Update="RoRamu.Utils" Version="*" />
+    </ItemGroup>
+</Project>
