@@ -5,8 +5,8 @@
     "tasks": [
         {
             "label": "build",
-            "command": "dotnet",
             "type": "shell",
+            "command": "dotnet",
             "args": [
                 "build",
                 // Ask dotnet build to generate full paths for file names.
@@ -16,14 +16,14 @@
             ],
             "group": "build",
             "presentation": {
-                "reveal": "silent"
+                "reveal": "always"
             },
             "problemMatcher": "$msCompile"
         },
         {
             "label": "restore",
-            "command": "dotnet",
             "type": "shell",
+            "command": "dotnet",
             "args": [
                 "restore",
                 "--no-cache",
@@ -31,7 +31,21 @@
             ],
             "group": "build",
             "presentation": {
-                "reveal": "silent"
+                "reveal": "always"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "test",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "test"
+            ],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always"
             },
             "problemMatcher": "$msCompile"
         }

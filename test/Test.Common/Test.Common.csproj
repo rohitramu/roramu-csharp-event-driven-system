@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <ProjectReference Include="$(SrcRoot)Common/RoRamu.EventSourcing.Common.csproj" />
+    </ItemGroup>
+
+</Project>
