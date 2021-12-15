@@ -3,7 +3,7 @@ using Xunit;
 
 namespace RoRamu.EventSourcing.Test
 {
-    public class Test_EventDrivenSystem
+    public class Test
     {
         [Fact]
         public void EndToEnd()

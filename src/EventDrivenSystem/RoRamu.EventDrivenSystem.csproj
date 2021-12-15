@@ -2,7 +2,7 @@
 
     <ItemGroup>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-            <_Parameter1>Test.Common</_Parameter1>
+            <_Parameter1>Test.EventDrivenSystem</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
 

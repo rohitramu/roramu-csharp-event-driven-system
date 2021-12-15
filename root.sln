@@ -5,11 +5,11 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3EB25C5C-53C4-4163-AC61-39F610B2D5FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoRamu.EventSourcing.Common", "src\Common\RoRamu.EventSourcing.Common.csproj", "{D4AFCD2B-5B7C-4AA4-9407-9F8C9337FA78}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoRamu.EventDrivenSystem", "src\EventDrivenSystem\RoRamu.EventDrivenSystem.csproj", "{D4AFCD2B-5B7C-4AA4-9407-9F8C9337FA78}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DA984530-333A-4B84-B04A-256E3701B5BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Common", "test\Test.Common\Test.Common.csproj", "{567338DD-0FE7-4E07-804D-F02E9CF90F6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.EventDrivenSystem", "test\Test.EventDrivenSystem\Test.EventDrivenSystem.csproj", "{567338DD-0FE7-4E07-804D-F02E9CF90F6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
