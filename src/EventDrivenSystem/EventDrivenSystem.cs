@@ -207,7 +207,7 @@ namespace RoRamu.EventSourcing
             LinkedListNode<Snapshot<T, S>> snapshotNode = this.FindSnapshotBefore(timestamp, equalIsGreater: false);
 
             // Build up the state from the snapshot to the event.
-            Snapshot<T, S> result = snapshotNode.Value;
+            Snapshot<T, S> result = this.CloneSnapshot(snapshotNode.Value);
             while (result.EventNode.Next != null
                 && timestamp.CompareTo(result.EventNode.Next.Value.Timestamp) >= 0)
             {

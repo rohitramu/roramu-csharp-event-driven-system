@@ -8,7 +8,7 @@ namespace RoRamu.EventSourcing.Test
         [Fact]
         public void EndToEnd()
         {
-            IEventDrivenSystem<int, decimal> system = new EventDrivenSystem<int, decimal>(0, 0, x => x, 0);
+            IEventDrivenSystem<int, decimal> system = new EventDrivenSystem<int, decimal>(0, 0, x => x);
 
             system.AddEvent(new AddEvent(10, 20)).Should().BeTrue("this is a new (distinct) event");
             system.CurrentState.Should().Be(20, "we just did '0 + 20'");
@@ -42,6 +42,12 @@ namespace RoRamu.EventSourcing.Test
 
             system.RemoveEvent(new DivideEvent(30, 2)).Should().BeFalse("this event was already removed");
             system.CurrentState.Should().Be(60, "we just changed the sequence of events to '0 + 20 - 10'");
+
+            system.AddEvent(new DivideEvent(30, 2)).Should().BeTrue("this is a new (distinct) event");
+            system.CurrentState.Should().Be(30, "we just did '60 / 2'");
+
+            system.RemoveEvent(new SetValueEvent(25, 60)).Should().BeTrue("we previously added this event");
+            system.CurrentState.Should().Be(5, "we just changed the effective sequence of events to '((0 + 20 - 10) / 2'");
         }
     }
 }

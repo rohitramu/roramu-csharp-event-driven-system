@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace RoRamu.EventSourcing
 {
+    // TODO: Add support for storing excess events externally (i.e. limit events stored in memory, use this type as a cache).
     /// <summary>
     /// Represents an event-driven system.
     /// </summary>
@@ -16,7 +17,7 @@ namespace RoRamu.EventSourcing
     /// <typeparam name="S">
     /// The type which represents the state of the system.
     /// <br/>
-    /// Implementations will likely be more performant if objects of this type are not immutable.
+    /// Implementations will likely be more performant if objects of this type are mutable.
     /// </typeparam>
     public interface IEventDrivenSystem<T, S>
         where T : IEquatable<T>, IComparable<T>
