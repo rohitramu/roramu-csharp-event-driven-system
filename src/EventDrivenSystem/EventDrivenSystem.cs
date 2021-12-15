@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace RoRamu.EventSourcing
+namespace RoRamu.EventDrivenSystem
 {
     /// <inheritdoc/>
     public sealed partial class EventDrivenSystem<T, S> : IEventDrivenSystem<T, S>

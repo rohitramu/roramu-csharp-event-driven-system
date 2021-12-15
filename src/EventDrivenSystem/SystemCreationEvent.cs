@@ -1,6 +1,6 @@
 using System;
 
-namespace RoRamu.EventSourcing
+namespace RoRamu.EventDrivenSystem
 {
     internal class SystemCreationEvent<T, S> : IEvent<T, S>
         where T : IEquatable<T>, IComparable<T>

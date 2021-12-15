@@ -1,6 +1,6 @@
 using System;
 
-namespace RoRamu.EventSourcing
+namespace RoRamu.EventDrivenSystem
 {
     internal class RevertibleSnapshot<T, S> : SnapshotBase<IRevertibleEvent<T, S>, T, S>
         where T : IEquatable<T>, IComparable<T>

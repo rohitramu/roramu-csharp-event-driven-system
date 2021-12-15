@@ -1,6 +1,6 @@
 using System;
 
-namespace RoRamu.EventSourcing
+namespace RoRamu.EventDrivenSystem
 {
     /// <summary>
     /// Represents an event which can change the state of a system, and can also be reverted.

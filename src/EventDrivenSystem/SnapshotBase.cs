@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace RoRamu.EventSourcing
+namespace RoRamu.EventDrivenSystem
 {
     internal abstract class SnapshotBase<E, T, S>
         where E : IEvent<T, S>

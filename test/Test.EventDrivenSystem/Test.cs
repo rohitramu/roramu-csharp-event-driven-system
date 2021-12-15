@@ -1,7 +1,7 @@
 using FluentAssertions;
 using Xunit;
 
-namespace RoRamu.EventSourcing.Test
+namespace RoRamu.EventDrivenSystem.Test
 {
     public class Test
     {

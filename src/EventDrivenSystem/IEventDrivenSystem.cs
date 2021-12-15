@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace RoRamu.EventSourcing
+namespace RoRamu.EventDrivenSystem
 {
     // TODO: Add support for storing excess events externally (i.e. limit events stored in memory, use this type as a cache).
     /// <summary>

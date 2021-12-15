@@ -1,4 +1,4 @@
-namespace RoRamu.EventSourcing.Test
+namespace RoRamu.EventDrivenSystem.Test
 {
     public class DivideEvent : IRevertibleEvent<int, decimal>
     {
