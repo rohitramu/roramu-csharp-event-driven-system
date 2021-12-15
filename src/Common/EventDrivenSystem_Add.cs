@@ -77,7 +77,21 @@ namespace RoRamu.EventSourcing
 
                 // Update counters so we wait for twice as many events before adding another snapshot.
                 this.CurrentGap = 0;
-                this.NextGap <<= 1;
+
+                // Dont increase the gap size if it is already at its maximum.
+                if (this.NextGap != this.MaxGap)
+                {
+                    if ((this.MaxGap >> 1) >= this.NextGap)
+                    {
+                        // We can increase the next gap without exceeding max gap.
+                        this.NextGap <<= 1;
+                    }
+                    else
+                    {
+                        // We cannot increase next gap without exceeding max gap, so set it to max gap.
+                        this.NextGap = this.MaxGap;
+                    }
+                }
             }
 
             if (shouldAddSnapshot)

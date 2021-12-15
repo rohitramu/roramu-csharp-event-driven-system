@@ -93,9 +93,6 @@ namespace RoRamu.EventSourcing
         /// <param name="toRemove">The event to remove.</param>
         /// <returns>True if the event was successfully removed, otherwise false.</returns>
         bool RemoveEvent(IEvent<T, S> toRemove);
-        // TODO: Make a separate interface for systems which will never have events removed from history.
-        // The implementation can be optimized by allowing event implementations that model state
-        // transitions that cannot be undone.  Remember to make a separate interface for undoable events.
 
         /// <summary>
         /// Gets the state of the system at the given time, based on the history of events.

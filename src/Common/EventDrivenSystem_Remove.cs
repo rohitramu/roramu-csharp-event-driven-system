@@ -64,23 +64,56 @@ namespace RoRamu.EventSourcing
         /// Retreats all snapshots up to and including the given snapshot.
         /// </summary>
         /// <param name="snapshotNode">The latest snapshot to retreat.</param>
-        private void DecrementSnapshotsBefore(LinkedListNode<Snapshot<T, S>> snapshotNode)
+        /// <returns>
+        /// The last snapshot which was successfully reverted.  All subsequent snapshots should be
+        /// regenerated.
+        /// </returns>
+        private LinkedListNode<Snapshot<T, S>> DecrementSnapshotsBefore(LinkedListNode<Snapshot<T, S>> snapshotNode)
         {
             if (snapshotNode == null)
             {
                 throw new ArgumentNullException(nameof(snapshotNode));
             }
 
+            // Revert all snapshots before (and including) the chosen snapshot.
+            LinkedListNode<Snapshot<T, S>> result = null;
             LinkedListNode<Snapshot<T, S>> currentSnapshotNode = snapshotNode;
             while (currentSnapshotNode != this.Snapshots.First) // don't retreat the initial (creation event) snapshot.
             {
-                Snapshot<T, S> snapshot = currentSnapshotNode.Value;
+                if (currentSnapshotNode.Value is not RevertibleSnapshot<T, S> revertibleSnapshot)
+                {
+                    Snapshot<T, S> snapshot = currentSnapshotNode.Value;
+                    snapshot.EventNode = snapshot.EventNode.Previous;
 
-                // The previous event node should never be null since it is guaranteed to be after the initial creation event.
-                snapshot.MovePrevious();
+                    // We were not able to revert this node, so reset the result.
+                    result = null;
+                }
+                else
+                {
+                    // The previous event node should never be null since it is guaranteed to be
+                    // after the initial creation event.
+                    revertibleSnapshot.MovePrevious();
+
+                    // Since we successfully reverted the snapshot, remember this if it's the first
+                    // one since a snapshot we could not revert.
+                    result ??= currentSnapshotNode;
+                }
 
                 currentSnapshotNode = currentSnapshotNode.Previous;
             }
+
+            // If we couldn't revert any snapshots, we need to regenerate them all from the beginning.
+            if (result == null)
+            {
+                // If we just moved a snapshot onto the first event (i.e. initial state), remove it
+                if (this.Snapshots.First.Value.EventNode == this.Snapshots.First.Next?.Value?.EventNode)
+                {
+                    this.Snapshots.Remove(this.Snapshots.First.Next);
+                }
+                result = this.Snapshots.First;
+            }
+
+            return result;
         }
 
         private void UpdateStateAfterRemovingEvent()
@@ -96,13 +129,6 @@ namespace RoRamu.EventSourcing
                 this.CurrentGap = this.NextGap == 0
                     ? 0
                     : this.NextGap - 1;
-
-                // Remove the first snapshot.
-                LinkedListNode<Snapshot<T, S>> nodeToRemove = this.Snapshots.First.Next;
-                if (nodeToRemove != null && nodeToRemove.Value.EventNode == this.Events.First)
-                {
-                    this.Snapshots.Remove(nodeToRemove);
-                }
             }
         }
     }

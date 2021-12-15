@@ -1,6 +1,6 @@
 namespace RoRamu.EventSourcing.Test
 {
-    public class SubtractEvent : IEvent<int, decimal>
+    public class SubtractEvent : IRevertibleEvent<int, decimal>
     {
         public int Timestamp { get; }
 

@@ -25,11 +25,6 @@ namespace RoRamu.EventSourcing
             throw new InvalidOperationException("A system creation even cannot be applied to any state, as it defines the initial state.");
         }
 
-        public S Undo(S snapshot)
-        {
-            throw new InvalidOperationException("A system creation even cannot be reverted from any state, as it defines the initial state.");
-        }
-
         public bool Equals(IEvent<T, S> other)
         {
             if (other == null)

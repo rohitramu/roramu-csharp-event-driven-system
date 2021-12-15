@@ -26,7 +26,18 @@ namespace RoRamu.EventSourcing
         /// <param name="createdTimestamp">When this system was created.</param>
         /// <param name="initialState">The initial state of the system.  No events can happen before this initial state.</param>
         /// <param name="deepCloneFunc">A method which creates a deep clone of a state object.</param>
-        public EventDrivenSystem(T createdTimestamp, S initialState, Func<S, S> deepCloneFunc)
+        /// <param name="maxEventsBetweenSnapshots">
+        /// A tuning variable which impacts how many state snapshots will be stored.  Use large
+        /// values (or null) in scenarios where events are mostly added in sequence.  Use small
+        /// values in scenarios where events are added in an unpredictable order.
+        /// <br/>
+        /// Large values will ensure that this type uses less memory than small values.
+        /// </param>
+        public EventDrivenSystem(
+            T createdTimestamp,
+            S initialState,
+            Func<S, S> deepCloneFunc,
+            ulong maxEventsBetweenSnapshots = ulong.MaxValue)
         {
             if (initialState == null)
             {
@@ -38,6 +49,8 @@ namespace RoRamu.EventSourcing
             S state = this.CloneState(initialState);
             this.Events.AddFirst(new SystemCreationEvent<T, S>(createdTimestamp, state));
             this.Snapshots.AddFirst(new Snapshot<T, S>() { State = state, EventNode = this.Events.First });
+
+            this.MaxGap = maxEventsBetweenSnapshots;
         }
 
         /// <inheritdoc/>
@@ -163,13 +176,14 @@ namespace RoRamu.EventSourcing
             }
 
             // Update all snapshots before the event to remove.
-            this.DecrementSnapshotsBefore(snapshotNode);
+            // The result will tell us from which snapshot we need to regenerate snapshots.
+            LinkedListNode<Snapshot<T, S>> regenSnapshotsAfter = this.DecrementSnapshotsBefore(snapshotNode);
 
             // Remove the event
             this.Events.Remove(eventNode);
 
             // Recalculate all snapshots after the removed event.
-            this.RegenerateSnapshotsAfter(snapshotNode);
+            this.RegenerateSnapshotsAfter(regenSnapshotsAfter);
 
             // Update counters and clean up snapshots.
             this.UpdateStateAfterRemovingEvent();

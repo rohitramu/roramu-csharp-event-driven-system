@@ -1,25 +1,20 @@
 namespace RoRamu.EventSourcing.Test
 {
-    public class AddEvent : IRevertibleEvent<int, decimal>
+    public class SetValueEvent : IEvent<int, decimal>
     {
         public int Timestamp { get; }
 
-        public decimal ToAdd { get; }
+        public decimal NewValue { get; }
 
-        public AddEvent(int timestamp, decimal toAdd)
+        public SetValueEvent(int timestamp, decimal newValue)
         {
             this.Timestamp = timestamp;
-            this.ToAdd = toAdd;
+            this.NewValue = newValue;
         }
 
         public decimal Apply(decimal snapshot)
         {
-            return snapshot + this.ToAdd;
-        }
-
-        public decimal Undo(decimal snapshot)
-        {
-            return snapshot - this.ToAdd;
+            return this.NewValue;
         }
 
         public bool Equals(IEvent<int, decimal> other)
@@ -29,7 +24,7 @@ namespace RoRamu.EventSourcing.Test
                 return false;
             }
 
-            if (other is not AddEvent otherEvent)
+            if (other is not SetValueEvent otherEvent)
             {
                 return false;
             }
@@ -39,7 +34,7 @@ namespace RoRamu.EventSourcing.Test
                 return false;
             }
 
-            if (otherEvent.ToAdd != this.ToAdd)
+            if (otherEvent.NewValue != this.NewValue)
             {
                 return false;
             }

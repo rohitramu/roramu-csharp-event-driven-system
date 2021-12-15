@@ -13,6 +13,8 @@ namespace RoRamu.EventSourcing
 
         private ulong CurrentGap = 0;
 
+        private readonly ulong MaxGap;
+
         private readonly Func<S, S> CloneState;
 
         private Snapshot<T, S> CloneSnapshot(Snapshot<T, S> toClone)
