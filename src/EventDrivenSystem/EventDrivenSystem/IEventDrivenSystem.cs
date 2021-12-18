@@ -3,14 +3,12 @@ using System.Collections.Generic;
 
 namespace RoRamu.EventDrivenSystem
 {
-    // TODO: Add support for storing excess events externally (i.e. limit events stored in memory, use this type as a cache).
     /// <summary>
     /// Represents an event-driven system.
     /// </summary>
     /// <typeparam name="T">
-    /// The type which represents event ordering in this system.  For example, <see cref="int"/> or
-    /// <see cref="long"/> to represent sequence numbers, or <see cref="DateTime"/> to represent
-    /// time.
+    /// The type which represents event ordering in this system.  For example, <see cref="int"/> to
+    /// represent sequence numbers, or <see cref="DateTime"/> to represent time.
     /// <br/>
     /// Objects of this type should be immutable.
     /// </typeparam>
@@ -46,21 +44,12 @@ namespace RoRamu.EventDrivenSystem
         /// <summary>
         /// Gets all events in chronological order.
         /// </summary>
-        /// <remarks>
-        /// There will be 1 more event than the total number of events added - this is because the
-        /// first event represents the creation of the system.
-        /// </remarks>
         /// <returns>All events.</returns>
         IEnumerable<IEvent<T, S>> GetEvents();
 
         /// <summary>
         /// Gets events in chronological order from the given time.
         /// </summary>
-        /// <remarks>
-        /// If <see cref="CreatedTimestamp"/> is used for the 'from' parameter, there will be 1 more
-        /// event than the total number of events added - this is because the first event represents
-        /// the creation of the system.
-        /// </remarks>
         /// <param name="from">The earliest time to start searching for events.</param>
         /// <returns>All events from the specified time.</returns>
         IEnumerable<IEvent<T, S>> GetEvents(T from);
@@ -68,11 +57,6 @@ namespace RoRamu.EventDrivenSystem
         /// <summary>
         /// Gets events in chronological order in the given time window.
         /// </summary>
-        /// <remarks>
-        /// If <see cref="CreatedTimestamp"/> is used for the 'from' parameter, there will be 1 more
-        /// event than the total number of events added - this is because the first event represents
-        /// the creation of the system.
-        /// </remarks>
         /// <param name="from">The start of the time window (inclusive).</param>
         /// <param name="to">The end of the time window (exclusive).</param>
         /// <returns>All events in the specified time window.</returns>

@@ -7,17 +7,13 @@ namespace RoRamu.EventDrivenSystem
         where S : IEquatable<S>
     {
         public T Timestamp { get; }
+
         public S State { get; }
 
         public SystemCreationEvent(T timestamp, S state)
         {
-            if (state == null)
-            {
-                throw new ArgumentNullException(nameof(state));
-            }
-
+            this.State = state ?? throw new ArgumentNullException(nameof(state));
             this.Timestamp = timestamp;
-            this.State = state;
         }
 
         public S Apply(S snapshot)

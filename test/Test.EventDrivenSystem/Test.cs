@@ -28,7 +28,7 @@ namespace RoRamu.EventDrivenSystem.Test
             system.AddEvent(new AddEvent(10, 20)).Should().BeFalse("the duplicate event should not be added");
             system.CurrentState.Should().Be(30, "we attempted to add a duplicate event");
 
-            system.GetEvents().Should().HaveCount(6, "we have added 5 distinct values, and we also have to include the initial state");
+            system.GetEvents().Should().HaveCount(5, "we have added 5 distinct values");
 
             system.GetStateAtTimestamp(15).Should().Be(20, "after the first operation at time 10, the events are equivalent to '0 + 20'");
             system.GetStateAtTimestamp(0).Should().Be(0, "the initial state is 0");

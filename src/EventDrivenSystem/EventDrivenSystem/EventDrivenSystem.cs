@@ -107,6 +107,12 @@ namespace RoRamu.EventDrivenSystem
                 currentEventNode = currentEventNode.Next;
             }
 
+            // Skip the system creation event.
+            if (currentEventNode == this.Events.First)
+            {
+                currentEventNode = currentEventNode.Next;
+            }
+
             // Return events until we hit the end of the time window.
             while (currentEventNode != null && currentEventNode.Value.Timestamp.CompareTo(to) < 0)
             {
@@ -121,6 +127,10 @@ namespace RoRamu.EventDrivenSystem
             if (toAdd == null)
             {
                 throw new ArgumentNullException(nameof(toAdd));
+            }
+            if (toAdd is SystemCreationEvent<T, S>)
+            {
+                throw new ArgumentException($"Cannot add an event of type '{nameof(SystemCreationEvent<T, S>)}'", nameof(toAdd));
             }
             if (toAdd.Timestamp.CompareTo(this.CreatedTimestamp) < 0)
             {
@@ -153,6 +163,10 @@ namespace RoRamu.EventDrivenSystem
             if (toRemove == null)
             {
                 throw new ArgumentNullException(nameof(toRemove));
+            }
+            if (toRemove is SystemCreationEvent<T, S>)
+            {
+                throw new ArgumentException($"Cannot remove an event of type '{nameof(SystemCreationEvent<T, S>)}'", nameof(toRemove));
             }
             if (toRemove.Timestamp.CompareTo(this.CreatedTimestamp) < 0)
             {

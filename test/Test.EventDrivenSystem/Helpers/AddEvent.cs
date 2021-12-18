@@ -17,7 +17,7 @@ namespace RoRamu.EventDrivenSystem.Test
             return snapshot + this.ToAdd;
         }
 
-        public decimal Undo(decimal snapshot)
+        public decimal Revert(decimal snapshot)
         {
             return snapshot - this.ToAdd;
         }

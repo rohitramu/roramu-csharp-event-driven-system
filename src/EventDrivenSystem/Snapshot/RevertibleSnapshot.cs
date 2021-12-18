@@ -13,7 +13,7 @@ namespace RoRamu.EventDrivenSystem
                 throw new InvalidOperationException("Cannot move to previous state if there are no previous events.");
             }
 
-            this.State = this.EventNode.Value.Undo(this.State);
+            this.State = this.EventNode.Value.Revert(this.State);
             this.EventNode = this.EventNode.Previous;
         }
     }

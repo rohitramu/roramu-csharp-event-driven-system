@@ -19,9 +19,9 @@ namespace RoRamu.EventDrivenSystem
         where S : IEquatable<S>
     {
         /// <summary>
-        /// Reverts the event from the given state snapshot.  <see cref="Undo(S)"/> should only be
+        /// Reverts the event from the given state snapshot.  <see cref="Revert(S)"/> should only be
         /// called if this event was the last event that was applied to the given state snapshot.
-        /// Calling <see cref="Undo(S)"/> at other times may result in a corrupted state.
+        /// Calling <see cref="Revert(S)"/> at other times may result in a corrupted state.
         /// </summary>
         /// <remarks>
         /// Implementations should be as fast as possible - this method may be called many times
@@ -31,6 +31,6 @@ namespace RoRamu.EventDrivenSystem
         /// <returns>
         /// The previous state if the event was successfully reverted, otherwise null.
         /// </returns>
-        S Undo(S snapshot);
+        S Revert(S snapshot);
     }
 }
