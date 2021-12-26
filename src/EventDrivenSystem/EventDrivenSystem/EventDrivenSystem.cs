@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace RoRamu.EventDrivenSystem
 {
     /// <inheritdoc/>
-    public sealed partial class EventDrivenSystem<T, S> : IEventDrivenSystem<T, S>
+    public partial class EventDrivenSystem<T, S> : IEventDrivenSystem<T, S>
         where T : IEquatable<T>, IComparable<T>
         where S : IEquatable<S>
     {
