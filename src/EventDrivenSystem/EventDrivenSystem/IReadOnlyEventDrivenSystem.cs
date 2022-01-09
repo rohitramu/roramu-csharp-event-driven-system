@@ -22,6 +22,16 @@ namespace RoRamu.EventDrivenSystem
         where S : IEquatable<S>
     {
         /// <summary>
+        /// Fires when an event is added.
+        /// </summary>
+        event EventHandler<IEvent<T, S>> OnEventAdded;
+
+        /// <summary>
+        /// Fires when an event is removed.
+        /// </summary>
+        event EventHandler<IEvent<T, S>> OnEventRemoved;
+
+        /// <summary>
         /// The current state of this system.
         /// </summary>
         S CurrentState { get; }

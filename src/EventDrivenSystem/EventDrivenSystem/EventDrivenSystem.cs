@@ -54,6 +54,12 @@ namespace RoRamu.EventDrivenSystem
         }
 
         /// <inheritdoc/>
+        public event EventHandler<IEvent<T, S>> OnEventAdded;
+
+        /// <inheritdoc/>
+        public event EventHandler<IEvent<T, S>> OnEventRemoved;
+
+        /// <inheritdoc/>
         public IEnumerable<IEvent<T, S>> GetEvents()
         {
             return this.GetEvents(this.CreatedTimestamp);
@@ -122,6 +128,32 @@ namespace RoRamu.EventDrivenSystem
         }
 
         /// <inheritdoc/>
+        public S GetStateAtTimestamp(T timestamp)
+        {
+            if (timestamp == null)
+            {
+                throw new ArgumentNullException(nameof(timestamp));
+            }
+            if (timestamp.CompareTo(this.CreatedTimestamp) < 0)
+            {
+                throw new ArgumentException("Given timestamp is before creation time.");
+            }
+
+            //Find the snapshot just befor the given timestamp.
+            LinkedListNode<Snapshot<T, S>> snapshotNode = this.FindSnapshotBefore(timestamp, equalIsGreater: false);
+
+            // Build up the state from the snapshot to the event.
+            Snapshot<T, S> result = this.CloneSnapshot(snapshotNode.Value);
+            while (result.EventNode.Next != null
+                && timestamp.CompareTo(result.EventNode.Next.Value.Timestamp) >= 0)
+            {
+                result.MoveNext();
+            }
+
+            return result.State;
+        }
+
+        /// <inheritdoc/>
         public bool AddEvent(IEvent<T, S> toAdd)
         {
             if (toAdd == null)
@@ -153,6 +185,8 @@ namespace RoRamu.EventDrivenSystem
 
             // Update counters and clean up snapshots.
             this.UpdateStateAfterAddingEvent();
+
+            this.OnEventAdded?.Invoke(this, toAdd);
 
             return true;
         }
@@ -202,33 +236,9 @@ namespace RoRamu.EventDrivenSystem
             // Update counters and clean up snapshots.
             this.UpdateStateAfterRemovingEvent();
 
+            this.OnEventRemoved?.Invoke(this, toRemove);
+
             return true;
-        }
-
-        /// <inheritdoc/>
-        public S GetStateAtTimestamp(T timestamp)
-        {
-            if (timestamp == null)
-            {
-                throw new ArgumentNullException(nameof(timestamp));
-            }
-            if (timestamp.CompareTo(this.CreatedTimestamp) < 0)
-            {
-                throw new ArgumentException("Given timestamp is before creation time.");
-            }
-
-            //Find the snapshot just befor the given timestamp.
-            LinkedListNode<Snapshot<T, S>> snapshotNode = this.FindSnapshotBefore(timestamp, equalIsGreater: false);
-
-            // Build up the state from the snapshot to the event.
-            Snapshot<T, S> result = this.CloneSnapshot(snapshotNode.Value);
-            while (result.EventNode.Next != null
-                && timestamp.CompareTo(result.EventNode.Next.Value.Timestamp) >= 0)
-            {
-                result.MoveNext();
-            }
-
-            return result.State;
         }
     }
 }

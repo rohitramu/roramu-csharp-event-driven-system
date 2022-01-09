@@ -32,7 +32,7 @@ namespace RoRamu.EventDrivenSystem
         /// </remarks>
         /// <param name="snapshot">The snapshot to apply this event to.</param>
         /// <returns>
-        /// The next state if the event was successfully applied, otherwise null.
+        /// The next state.
         /// </returns>
         S Apply(S snapshot);
     }
